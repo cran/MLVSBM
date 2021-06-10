@@ -13,11 +13,14 @@ spcClust <- function(X, K){
   isolated <- which(rowSums(X, na.rm = TRUE) == 0)
   connected <- setdiff(seq(n), isolated)
   X <- X[connected, connected]
+  if (! isSymmetric(X)) {
+    X <- 1*((X+t(X)) >0)
+  }
   D_moins1_2 <- diag(1/sqrt(rowSums(X, na.rm = TRUE) + 1e-3))
   X[is.na(X)] <- mean(X, na.rm=TRUE)
   Labs <- D_moins1_2 %*% X %*% D_moins1_2
   specabs <- eigen(Labs, symmetric = TRUE)
-  index <- order(abs(specabs$values))[1:K]
+  index <- rev(order(abs(specabs$values)))[1:K]
   U <- specabs$vectors[,index]
   U <- U / rowSums(U**2)**(1/2)
   U[is.na(U)] <- 0
@@ -37,11 +40,17 @@ spcClust <- function(X, K){
 #' @return A vector : The clusters labels
 hierarClust <- function(X, K){
   if (K == 1) return (rep(1L, nrow(X)))
-  distance <- stats::dist(x = X, method = "manhattan")
-  X[X == -1] <- NA
+  # distance <- stats::dist(x = X, method = "manhattan")
+  # X[X == -1] <- NA
   # distance[which(A == 1)] <- distance[which(A == 1)] - 2
-  distance <- stats::as.dist(ape::additive(distance))
-  clust    <- stats::hclust(d = distance , method = "ward.D")
+  # distance <- stats::as.dist(ape::additive(distance))
+  diss <- cluster::daisy(x = X, metric = "manhattan", warnType = FALSE)
+  if (! any(is.na(diss))) {
+    clust <- cluster::agnes(x = X, metric = "manhattan", method = "ward")
+  } else {
+    return (rep(1L, nrow(X)))
+  }
+  # clust    <- stats::hclust(d = distance , method = "ward.D2")
   return(stats::cutree(tree = clust, k = K))
 }
 
