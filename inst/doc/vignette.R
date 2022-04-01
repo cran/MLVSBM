@@ -13,17 +13,17 @@ my_mlvsbm <- MLVSBM::mlvsbm_simulate_network(
   n = list(I = 60, O = 40), # Number of nodes for the lower level and the upper level
   Q = list(I = 3, O = 3), # Number of blocks for the lower level and the upper level
   pi = c(.5, .3, .2), # Block proportion for the upper level, must sum to one
-  gamma = matrix(c(.8, .1, .1,  # Block proportion for the lower level,
-                   .1, .8, .1,
-                   .1, .1, .8), # each column must sum to one
+  gamma = matrix(c(.8, .2, .05,  # Block proportion for the lower level,
+                   .1, .7, .05,
+                   .1, .1, .9), # each column must sum to one
                  nrow = 3, ncol = 3, byrow = TRUE),  
   alpha = list(I = matrix(c(.1, .1, .3, 
                             .1, .2, .5,
                             .1, .5, .5), 
                           nrow = 3, ncol = 3, byrow = TRUE), # Connection matrix
-               O = matrix(c(.5, .1, .1, 
+               O = matrix(c(.4, .1, .1, 
                             .1, .5, .1,
-                            .1, .1, .5), 
+                            .1, .1, .6), 
                           nrow = 3, ncol = 3, byrow = TRUE)),# between blocks
   directed = list(I = TRUE, O = FALSE), # Are the upper and lower level directed or not ?
   affiliation = "preferential", # How the affiliation matrix is generated
@@ -41,7 +41,8 @@ fit <- MLVSBM::mlvsbm_estimate_network(my_mlvsbm, nb_cores = 1L)
 
 ## ----generic, fig.width=7, fig.height=7---------------------------------------
 print(fit)
-plot(fit, type = "matrix")
+plot(fit, type = "matrix", order = "affiliation")
+plot(fit, type = "matrix", order = "degree")
 coef(fit)
 pred <- predict(fit)
 
