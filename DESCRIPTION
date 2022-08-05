@@ -1,7 +1,7 @@
 Package: MLVSBM
 Type: Package
 Title: A Stochastic Block Model for Multilevel Networks
-Version: 0.2.3
+Version: 0.2.4
 Authors@R: 
     person(given = "Saint-Clair",
            family = "Chabert-Liddell",
@@ -27,9 +27,9 @@ Suggests: testthat (>= 2.1.0), covr, knitr, rmarkdown, ggplot2 (>=
 VignetteBuilder: knitr
 Language: en-US
 NeedsCompilation: no
-Packaged: 2022-03-30 09:17:52 UTC; stc
+Packaged: 2022-08-04 17:05:33 UTC; stc
 Author: Saint-Clair Chabert-Liddell [aut, cre]
     (<https://orcid.org/0000-0001-5604-7308>)
 Maintainer: Saint-Clair Chabert-Liddell <academic@chabert-liddell.com>
 Repository: CRAN
-Date/Publication: 2022-04-01 23:50:07 UTC
+Date/Publication: 2022-08-05 10:10:05 UTC
